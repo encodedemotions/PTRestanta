@@ -5,7 +5,11 @@ defmodule MessageBroker do
   @impl true
   def start(_type, _args) do
     Logger.info("Starting MessageBroker")
-    children = [MessageBroker.SubscribersAgent]
+    children = [
+      MessageBroker.SubscribersAgent,
+      {Task.Supervisor, name: MessageBroker.Server.TaskSupervisor},
+      {Task, fn -> MessageBroker.Server.accept(8000) end}
+    ]
     opts = [strategy: :one_for_one, name: MessageBroker.Supervisor]
     Supervisor.start_link(children, opts)
   end

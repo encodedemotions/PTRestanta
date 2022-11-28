@@ -1,8 +1,9 @@
-{application,restanta,
+{application,message_broker,
              [{applications,[kernel,stdlib,elixir,logger]},
-              {description,"restanta"},
+              {description,"message_broker"},
               {modules,['Elixir.MessageBroker','Elixir.MessageBroker.Command',
                         'Elixir.MessageBroker.Server',
                         'Elixir.MessageBroker.SubscribersAgent']},
               {registered,[]},
-              {vsn,"0.1.0"}]}.
+              {vsn,"0.1.0"},
+              {mod,{'Elixir.MessageBroker',[]}}]}.
