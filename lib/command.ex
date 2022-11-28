@@ -11,6 +11,9 @@ defmodule MessageBroker.Command do
     # dbg("parsed line is #{inspect(parsed)}")
 
     case parsed do
+      ["help"] ->
+        {:ok, {:help}}
+
       ["sub", topic] ->
         # dbg("was subscribe command to topic #{topic}")
         {:ok, {:subscribe, topic}}
@@ -30,6 +33,9 @@ defmodule MessageBroker.Command do
 
   def run(command, socket) do
     case command do
+      {:help} ->
+        send_message(socket, "Available commands are: sub (topic), pub (topic) (message), unsub (topic)")
+
       {:subscribe, topic} ->
         MessageBroker.SubscribersAgent.add_subscriber(topic, socket)
         send_message(socket, "subscribed successfully to topic #{topic}")

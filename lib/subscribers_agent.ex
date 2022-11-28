@@ -8,6 +8,7 @@ defmodule MessageBroker.SubscribersAgent do
   end
 
   def add_subscriber(topic, subscriber) do
+    Logger.info("Topic = #{topic}")
     Agent.update(
       __MODULE__,
       fn all_subscribers ->
