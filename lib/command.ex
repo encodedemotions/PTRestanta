@@ -60,7 +60,7 @@ defmodule MessageBroker.Command do
         topic_subscribers = MessageBroker.SubscribersAgent.get_topic_subscribers(topic)
 
         Enum.each(topic_subscribers, fn subscriber ->
-          send_message(subscriber, message)
+          send_message(subscriber, "#{topic}, #{inspect(socket)}, #{message}")
         end)
 
         send_message(socket, "message was send to #{inspect(length(topic_subscribers))}")
