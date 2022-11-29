@@ -1,4 +1,12 @@
 defmodule MessageBroker.Command do
+  @moduledoc """
+    Utility module to define message broker commands.
+  """
+
+  @doc """
+    Parses string to array of 3 string [str_1, str_2, str_3].
+    Accepts as input a parsed array from above and splits it into 5 cases (atoms). {:ok, command} or {:error, :unknown_command}
+  """
   def parse(line) do
     # dbg("line is: #{inspect(line)}")
 
@@ -10,6 +18,7 @@ defmodule MessageBroker.Command do
 
     # dbg("parsed line is #{inspect(parsed)}")
 
+    #Accepts as input a parsed array from above and splits it into 5 cases (atoms). {:ok, command} or {:error, :unknown_command}
     case parsed do
       ["help"] ->
         {:ok, {:help}}
@@ -31,6 +40,9 @@ defmodule MessageBroker.Command do
     end
   end
 
+  @doc """
+    Accepts as input the atom command from above and based on the atoms it triggers actions.
+  """
   def run(command, socket) do
     case command do
       {:help} ->
@@ -55,6 +67,9 @@ defmodule MessageBroker.Command do
     end
   end
 
+  @doc """
+    Sends message to the client in the terminal.
+  """
   def send_message(socket, message) do
     :gen_tcp.send(socket, message <> "\r\n")
   end

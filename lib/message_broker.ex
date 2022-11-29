@@ -1,6 +1,10 @@
 defmodule MessageBroker do
   use Application
   require Logger
+  @moduledoc """
+    Main application module, the entire application starts under this supervisor.
+    This supervisor defines the children.
+  """
 
   @impl true
   def start(_type, _args) do

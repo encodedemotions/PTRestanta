@@ -1,6 +1,13 @@
 defmodule MessageBroker.Server do
+  @moduledoc """
+    TCP server with task supervisor that accepts incoming connections and takes care of thier requests.
+    Most of this is unchanged from the TCP server documentation.
+  """
   require Logger
 
+  @doc """
+    Accepts incoming connections on specified port.
+  """
   def accept(port) do
     {:ok, socket} =
       :gen_tcp.listen(port, [:binary, packet: :line, active: false, reuseaddr: true])
@@ -9,6 +16,9 @@ defmodule MessageBroker.Server do
     loop_acceptor(socket)
   end
 
+  @doc """
+    For each connection start a new task under supervisor.
+  """
   defp loop_acceptor(socket) do
     {:ok, client} = :gen_tcp.accept(socket)
     Logger.info("new client connected: #{inspect(client)}")
@@ -21,6 +31,10 @@ defmodule MessageBroker.Server do
     loop_acceptor(socket)
   end
 
+  @doc """
+    The started task executes the serve function in an infinite loop.
+    Handles the clients' input (commands) and executes the actions based on those commands.
+  """
   defp serve(socket) do
     with {:ok, data} <- read_line(socket),
          {:ok, command} <-
@@ -35,10 +49,16 @@ defmodule MessageBroker.Server do
     serve(socket)
   end
 
+  @doc """
+    Reads from the TCP socket.
+  """
   defp read_line(socket) do
     :gen_tcp.recv(socket, 0)
   end
 
+  @doc """
+    Writes to the TCP socket.
+  """
   defp write_line(line, socket) do
     :gen_tcp.send(socket, line)
   end

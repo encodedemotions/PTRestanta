@@ -1,7 +1,13 @@
 defmodule MessageBroker.SubscribersAgent do
+  @moduledoc """
+    The functionality of the shared state.
+  """
   use Agent
   require Logger
 
+  @doc """
+    Starts and notifies that the SubscribersAgent module was started.
+  """
   def start_link(_opts) do
     Logger.info("Starting SubscribersAgent")
     Agent.start_link(fn -> %{} end, name: __MODULE__)
@@ -39,6 +45,9 @@ defmodule MessageBroker.SubscribersAgent do
     end)
   end
 
+  @doc """
+    Displays the entire agent state (existing topics and the client that is connected to them).
+  """
   def get_all() do
     Agent.get(__MODULE__, fn state -> state end)
   end

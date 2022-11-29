@@ -1,5 +1,5 @@
 {application,message_broker,
-             [{applications,[kernel,stdlib,elixir,logger]},
+             [{applications,[kernel,stdlib,elixir,logger,ex_doc]},
               {description,"message_broker"},
               {modules,['Elixir.MessageBroker','Elixir.MessageBroker.Command',
                         'Elixir.MessageBroker.Server',
